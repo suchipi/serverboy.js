@@ -266,8 +266,8 @@ function Instance(ROMImage) {
   this.canvasBuffer = null; //imageData handle
   this.pixelStart = 0; //Temp variable for holding the current working framebuffer offset.
   //Variables used for scaling in JS:
-  this.onscreenWidth = this.offscreenWidth = 160;
-  this.onscreenHeight = this.offScreenheight = 144;
+  this.onscreenWidth = 160;
+  this.onscreenHeight = 144;
   this.offscreenRGBCount = this.onscreenWidth * this.onscreenHeight * 4;
   this.resizePathClear = true;
   //Initialize the white noise cache tables ahead of time:

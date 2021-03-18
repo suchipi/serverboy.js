@@ -757,44 +757,21 @@ GameBoyCore.prototype.MBCRAMUtilized = function () {
   );
 };
 GameBoyCore.prototype.recomputeDimension = function () {
-  //Cache some dimension info:
   this.onscreenWidth = 160;
   this.onscreenHeight = 144;
-
-  this.offscreenWidth = 160;
-  this.offscreenHeight = 144;
-  this.offscreenRGBCount = this.offscreenWidth * this.offscreenHeight * 4;
+  this.offscreenRGBCount = this.onscreenWidth * this.onscreenHeight * 4;
 };
 GameBoyCore.prototype.initLCD = function () {
   this.recomputeDimension();
-  if (this.offscreenRGBCount != 92160) {
-    //Only create the resizer handle if we need it:
-    this.compileResizeFrameBufferFunction();
-  } else {
-    //Resizer not needed:
-    this.resizer = null;
-  }
+  //Resizer not needed:
+  this.resizer = null;
 
-  try {
-    this.canvasBuffer = {
-      data: new Uint8ClampedArray(92160),
-      height: 144,
-      width: 160,
-    };
+  this.canvasBuffer = {
+    data: new Uint8ClampedArray(92160),
+    height: 144,
+    width: 160,
+  };
 
-    //Taking canvas out of the picture.
-    //this.canvasBuffer = this.drawContextOffScreen.createImageData(144, 160);
-    //this.canvasBuffer.prototype = ImageData;
-    //new ImageData(160, 144);//{'width':160, 'height':144, 'data':new Array(160*144*4)};//this.drawContextOffscreen.createImageData(this.offscreenWidth, this.offscreenHeight);
-  } catch (error) {
-    console.log(
-      "hack failed: " +
-        error.message +
-        ": falling back to getImageData initialization"
-    );
-    //cout("Falling back to the getImageData initialization (Error \"" + error.message + "\").", 1);
-    //this.canvasBuffer = this.drawContextOffscreen.getImageData(0, 0, this.offscreenWidth, this.offscreenHeight);
-  }
   var index = this.offscreenRGBCount;
   while (index > 0) {
     this.canvasBuffer.data[(index -= 4)] = 0xf8;
@@ -802,7 +779,7 @@ GameBoyCore.prototype.initLCD = function () {
     this.canvasBuffer.data[index + 2] = 0xf8;
     this.canvasBuffer.data[index + 3] = 0xff;
   }
-  //this.graphicsBlit();
+
   if (this.swizzledFrame == null) {
     this.swizzledFrame = this.getTypedArray(69120, 0xff, "uint8");
   }
@@ -2113,14 +2090,8 @@ GameBoyCore.prototype.requestDraw = function () {
   }
 };
 GameBoyCore.prototype.dispatchDraw = function () {
-  if (this.offscreenRGBCount > 0) {
-    //We actually updated the graphics internally, so copy out:
-    if (this.offscreenRGBCount == 92160) {
-      this.processDraw(this.swizzledFrame);
-    } else {
-      this.resizeFrameBuffer();
-    }
-  }
+  //We actually updated the graphics internally, so copy out:
+  this.processDraw(this.swizzledFrame);
 };
 
 //ToDo: Remove this method, I don't think it's necessary.
@@ -2164,33 +2135,6 @@ GameBoyCore.prototype.clearFrameBuffer = function () {
       frameBuffer[bufferIndex++] = 255;
       frameBuffer[bufferIndex++] = 222;
     }
-  }
-};
-GameBoyCore.prototype.resizeFrameBuffer = function () {
-  //Resize in javascript with resize.js:
-  if (this.resizePathClear) {
-    this.resizePathClear = false;
-    this.resizer.resize(this.swizzledFrame);
-  }
-};
-GameBoyCore.prototype.compileResizeFrameBufferFunction = function () {
-  if (this.offscreenRGBCount > 0) {
-    var parentObj = this;
-    this.resizer = new Resize(
-      160,
-      144,
-      this.offscreenWidth,
-      this.offscreenHeight,
-      false,
-      settings[13],
-      false,
-      function (buffer) {
-        if ((buffer.length / 3) * 4 == parentObj.offscreenRGBCount) {
-          parentObj.processDraw(buffer);
-        }
-        parentObj.resizePathClear = true;
-      }
-    );
   }
 };
 GameBoyCore.prototype.renderScanLine = function (scanlineToRender) {
