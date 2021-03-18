@@ -12,6 +12,17 @@ const KEYMAP = {
   START: 7,
 };
 
+const KEYMAP_REVERSED = {
+  0: "RIGHT",
+  1: "LEFT",
+  2: "UP",
+  3: "DOWN",
+  4: "A",
+  5: "B",
+  6: "SELECT",
+  7: "START",
+};
+
 const PRIVATE = "_" + process.hrtime().join(".");
 function Interface() {
   let _that = (this[PRIVATE] = {
@@ -83,14 +94,10 @@ Interface.prototype = {
 
   /*
    * Emulates a single frame
-   *
-   * TODO: add documentation for imageData
-   * @param partial - DEPRECATED - whether or not to render the entire screen or just the changed bits
-   * @returns Array - image data for that frame, which can later be converted into a canvas writeable format
    */
-  doFrame: function (partial) {
+  doFrame: function () {
     let _that = this[PRIVATE];
-    //Press required keys
+    // Press required keys
     for (let i = _that.pressed.length - 1; i >= 0; i--) {
       if (_that.pressed[i]) {
         _that.sendKey(i, true);
@@ -99,18 +106,16 @@ Interface.prototype = {
 
     _that.gameboy.frameDone = false;
     while (!_that.gameboy.frameDone) {
-      _that.gameboy.run(); //Run internal logic until the entire frame as finished.
+      _that.gameboy.run(); // Run internal logic until the entire frame as finished.
     }
 
-    //Release all keys
+    // Release all keys
     for (let i = _that.pressed.length - 1; i >= 0; i--) {
       _that.pressed[i] = false;
       _that.sendKey(i, false);
     }
 
     ++_that.frames;
-
-    return partial ? _that.gameboy.partialScreen : _that.gameboy.currentScreen;
   },
 
   /*
@@ -134,11 +139,8 @@ Interface.prototype = {
   pressKey: function (key) {
     let _that = this[PRIVATE];
 
-    if (typeof key === "string") {
-      key = KEYMAP[key.toUpperCase()];
-    }
-    if (key == null) {
-      throw new Error("Invalid key passed to `pressKey`.");
+    if (!KEYMAP_REVERSED[key]) {
+      throw new Error(`Invalid key passed to 'pressKey': ${key}`);
     }
     if (key < _that.pressed.length && key != null) {
       _that.pressed[key] = true;

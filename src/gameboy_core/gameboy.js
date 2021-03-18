@@ -820,15 +820,8 @@ GameBoyCore.prototype.graphicsBlit = function () {
   this.lastScreen = this.currentScreenFixed;
 
   this.currentScreen = []; //new Uint8Array(this.canvasBuffer.data.length);
-  this.partialScreen = [];
 
   for (var i = 0; i < this.canvasBuffer.data.length; i++) {
-    //Build partial frame.
-    if (this.lastScreen[i] != this.canvasBuffer.data[i]) {
-      this.partialScreen.push(i);
-      this.partialScreen.push(this.canvasBuffer.data[i]);
-    }
-
     //Build full frame.
     this.currentScreenFixed[i] = this.canvasBuffer.data[i];
     //this.currentScreen.push(i);
