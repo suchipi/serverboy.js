@@ -1,7 +1,7 @@
 {
-  "name": "serverboy",
+  "name": "@suchipi/serverboy",
   "version": "0.0.4",
-  "description": "A gameboy emulator based off of gameboy-online and optimized to run on a server with hooks for scripting and streaming output.",
+  "description": "Fork of serverboy",
   "main": "./src/interface.js",
   "scripts": {
     "test": "node ./tests/runner.js | tee ./tests/results/test_report.txt",
@@ -14,26 +14,15 @@
     "scripting",
     "pure javascript"
   ],
-  "author": {
-    "name": "Daniel Shumway",
-    "email": "shumway.danny@gmail.com",
-    "url": "http://www.latinforimagination.com/"
-  },
-  "license": "GPL 2",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/danShumway/serverboy.js"
-  },
-  "bugs": {
-    "url": "https://github.com/danShumway/serverboy.js/issues"
-  },
-  "homepage": "https://github.com/danShumway/serverboy.js",
+  "license": "GPL-2.0",
+  "repository": "suchipi/serverboy.js",
   "devDependencies": {
     "@latinfor/distilled": "^1.0.4",
     "browserify": "^16.2.3",
     "express": "^4.16.3",
     "lodash": "^4.17.11",
     "pngjs": "^3.3.3",
-    "socket.io": "^2.1.1"
+    "socket.io": "^2.1.1",
+    "prettier": "^2.2.1"
   }
 }
