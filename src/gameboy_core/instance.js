@@ -3,7 +3,6 @@ function Instance(ROMImage) {
   this.frameDone = false;
   this.currentScreen = []; //this.currentScreenContents;
   this.lastScreen = []; //A copy of the last frame's screen.
-  this.partialScreen = {}; //An object with the differences from the last screen.
 
   //Params, etc...
   this.currentFrame = []; //Array of the most recent frame.
