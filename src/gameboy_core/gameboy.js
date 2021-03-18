@@ -14,12 +14,12 @@
  * GNU General Public License for more details.
  *
  */
-var Instance = require("./instance.js");
-var settings = require("./settings.js");
-var saving = require("./saveState.js");
+var Instance = require("./instance");
+var settings = require("./settings");
+var saving = require("./saveState");
 
 //I need to mock a whole bunch of stuff on top of this.
-//var XAudioServer = require('./audio/XAudioServer.js');
+//var XAudioServer = require('./audio/XAudioServer');
 
 //TODO: Fix and reimplement missing function.
 function cout() {}
@@ -36,11 +36,11 @@ GameBoyCore.prototype = {
   //-----------------ARCHITECTURE-------------------------
   GBBOOTROM: [], //Add 256 byte boot rom here if you are going to use it.
   GBCBOOTROM: [], //Add 2048 byte boot rom here if you are going to use it.
-  ffxxDump: require("./architecture/ffxxDump.js"),
-  OPCODE: require("./architecture/OPCODE.js"),
-  CBOPCODE: require("./architecture/CBOPCODE.js"),
-  TICKTable: require("./architecture/TICKTable.js"),
-  SecondaryTICKTable: require("./architecture/SecondaryTICKTable.js"),
+  ffxxDump: require("./architecture/ffxxDump"),
+  OPCODE: require("./architecture/OPCODE"),
+  CBOPCODE: require("./architecture/CBOPCODE"),
+  TICKTable: require("./architecture/TICKTable"),
+  SecondaryTICKTable: require("./architecture/SecondaryTICKTable"),
   //-------------------------------------------------------
 
   //------------SAVE/LOAD----------------------------------

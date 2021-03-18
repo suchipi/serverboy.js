@@ -1,5 +1,5 @@
 //In your program, this line will be - var gameboy = require('serverboy');
-var gameboy = require("../../../src/interface.js");
+var gameboy = require("../../../src/interface");
 
 var fs = require("fs");
 

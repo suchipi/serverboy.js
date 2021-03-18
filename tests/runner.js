@@ -11,7 +11,7 @@ function rel(relpath) {
   return path.resolve(process.cwd(), relpath);
 }
 
-var Gameboy = require(rel("./src/interface.js"));
+var Gameboy = require("../src/interface");
 
 var tests = {
   instr_timing: {

@@ -1,5 +1,5 @@
 "use-strict";
-var GameBoyCore = require("./gameboy_core/gameboy.js");
+var GameBoyCore = require("./gameboy_core/gameboy");
 
 const KEYMAP = {
   RIGHT: 0,
